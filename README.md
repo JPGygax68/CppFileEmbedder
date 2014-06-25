@@ -1,7 +1,7 @@
 CppFileEmbedder
 ===============
 
-Small C++ header file generator to embed multiple files into your code, indexed by filename/path.
+Simple C++ header file generator that embeds files and makes them available through a map object.
 
 How to use
 ----------
