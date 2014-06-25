@@ -28,11 +28,11 @@ In one of your source files, include it simply like this:
 
 The `embeds` object features an overloaded index operator (`[]`) and a `get()` method, both of which must be passed one of the exact filenames or paths that were specified as resource files when executing CppFileEmbedder.
 
-The difference between `[]` and `get()` is that the former returns a `const char *`, while the latter return a `const unsigned char *`.
+The difference between `[]` and `get()` is that the former returns a `const char *`, while the latter returns a `const unsigned char *`.
 
 ### Installing
 
-The CppFileEmbedder project is managed by [CMake](http://www.cmake.org/), which is therefore the best way to install it.
+The CppFileEmbedder project is managed by [CMake](http://www.cmake.org/), which is also the best way to install it.
 
 To do so:
 
@@ -40,9 +40,9 @@ To do so:
 - Create a subdirectory called `build` and create or direct a shell there
 - Generate the project configuration by executing `cmake ../src -DCMAKE_INSTALL_PREFIX=<your install directory>`
 
-``CMAKE_INSTALL_PREFIX`` must be set to the root directory where you put software that you build from source yourself. Under Windows, for example, you might use ``D:/Libraries`` (forward slash! CMake cannot cope with backslashes), which would result in files being installed to ``D:\Libraries\bin\`` (the executable) and ``D:\Libraries\cmake\`` (the CMake export file - see below).
+Specifying the ``CMAKE_INSTALL_PREFIX`` variable is mandatory. Usually, you should make it point to a directory you have set aside to hold software modules that you build from source yourself. Under Windows, for example, you might use ``D:/Libraries`` (forward slash! CMake cannot cope with backslashes), which would result in files being installed to ``D:\Libraries\bin\`` (the executable) and ``D:\Libraries\cmake\`` (the CMake export file - see below).
 
-From there, as usual with CMake, you can build and install the utility by executing `cmake --build . --target install` or by using your C++ toolchain directly.
+From there, as usual with CMake, you can build the utility by executing `cmake --build .`,  and install it with `cmake --build --target install`. Alternatively, you can also use your C++ toolchain directly.
 
 ### Using from CMake
 
