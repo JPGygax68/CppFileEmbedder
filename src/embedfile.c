@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 
 static FILE *
 open_or_exit(const char* fname, const char* mode)
@@ -15,8 +16,8 @@ open_or_exit(const char* fname, const char* mode)
 int main(int argc, char** argv)
 {
 	int i;
-	FILE *out, *in;
-	char buf[256];
+	FILE *out = NULL, *in = NULL;
+	uint8_t buf[256];
 	size_t nread, total;
 	size_t linesize;
 	size_t j;
@@ -77,6 +78,8 @@ int main(int argc, char** argv)
 		fprintf(out, "          %u }", total);
 		if (i < (argc-1)) fprintf(out, ",");
 		fprintf(out, "\n");
+
+		fclose(in);
 	}
   
 	fprintf(out, "    };\n");
@@ -95,7 +98,5 @@ int main(int argc, char** argv)
 	fprintf(out, "#endif\n");
 	fprintf(out, "\n");
   
-	fclose(in);
-
 	return EXIT_SUCCESS;
 }
