@@ -1,6 +1,8 @@
 CppFileEmbedder
 ===============
 
+Last revision: 2014-08-03 by gygax@practicomp.ch
+
 Simple C++ header file generator that embeds files and makes them available through a map object.
 
 How to use
@@ -26,9 +28,12 @@ In one of your source files, include it simply like this:
 
 ### Accessing the embedded files
 
-The `embeds` object features an overloaded index operator (`[]`) and a `get()` method, both of which must be passed one of the exact filenames or paths that were specified as resource files when executing CppFileEmbedder.
+The `embeds` object gives access to contained files through an overloaded `[]` operator, which must be passed one of the exact filenames or paths that were specified as resource files when executing CppFileEmbedder.
 
-The difference between `[]` and `get()` is that the former returns a `const char *`, while the latter returns a `const unsigned char *`.
+It returns objects with two getter methods:
+
+- `size()`, returning the size of the file in bytes
+- `data<T>()`, returning a pointer to a (const) array of elements of the specified template type `T`
 
 ### Installing
 

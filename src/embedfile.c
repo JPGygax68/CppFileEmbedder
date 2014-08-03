@@ -35,21 +35,26 @@ int main(int argc, char** argv)
 	fprintf(out, "\n");
 	fprintf(out, "#include <map>\n");
 	fprintf(out, "#include <string>\n");
+	fprintf(out, "#include <cstdint>\n");
+	fprintf(out, "#include <array>\n");
 	fprintf(out, "\n");
 	fprintf(out, "class Embedded {\n");
 	fprintf(out, "public:\n");
+	fprintf(out, "    struct File {\n");
+	fprintf(out, "		size_t _size;\n");
+	fprintf(out, "		const char *_raw;\n");
+	fprintf(out, "		size_t size() const { return _size; }\n");
+	fprintf(out, "		template<typename T> const T *data() const { return static_cast<const T*>(_raw); }\n");
+	fprintf(out, "    };\n");
+	fprintf(out, "\n");
 	fprintf(out, "    Embedded();\n");
 	fprintf(out, "\n");
-	fprintf(out, "    const char * operator[] (const char *key) {\n");
+	fprintf(out, "    const File & operator[] (const char *key) {\n");
 	fprintf(out, "        return map[key];\n");
 	fprintf(out, "    }\n");
 	fprintf(out, "\n");
-	fprintf(out, "    const unsigned char * get(const char *key) {\n");
-	fprintf(out, "        return reinterpret_cast<const unsigned char *>(map[key]);\n");
-	fprintf(out, "    }\n");
-	fprintf(out, "\n");
 	fprintf(out, "private:\n");
-	fprintf(out, "    std::map<std::string, const char *> map;\n");
+	fprintf(out, "    std::map<std::string, File> map;\n");
 	fprintf(out, "};\n");
 	fprintf(out, "\n");
 	fprintf(out, "#ifndef EMBEDS_EXPORT_ONLY\n");
@@ -61,7 +66,7 @@ int main(int argc, char** argv)
     
 		fprintf(out, "        { \"%s\",\n          \"", argv[i]);
 
-		in = open_or_exit(argv[i], "r");
+		in = open_or_exit(argv[i], "rb");
 		buf[256];
 		total = nread = 0;
 		linesize = 0;
@@ -84,7 +89,8 @@ int main(int argc, char** argv)
   
 	fprintf(out, "    };\n");
 	fprintf(out, "    for (auto i = 0; i < %d; i++) {\n", argc - 2);
-	fprintf(out, "        map[raw[i].key] = raw[i].content;\n");
+	fprintf(out, "        File file = { raw[i].size, raw[i].content };\n");
+	fprintf(out, "        map[raw[i].key] = file;\n");
 	fprintf(out, "    }\n");
 	fprintf(out, "}\n");
 	fprintf(out, "\n");
